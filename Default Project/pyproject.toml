@@ -1,3 +1,2 @@
 [tool.vercel]
 entrypoint = "Default Project.app:app"
-Learn More: https://vercel.com/docs/frameworks/backend/flask#exporting-the-flask-application
