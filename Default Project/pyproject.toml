@@ -1,2 +1,2 @@
 [tool.vercel]
-entrypoint = "Default Project.app:app"
+entrypoint = "web_app:app"
