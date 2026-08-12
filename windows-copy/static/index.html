@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>إشارة | ترجمة لغة الإشارة العربية</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="/" aria-label="الصفحة الرئيسية لإشارة">
+      <img class="brand-logo" src="/static/assets/ishara-logo.png" alt="إشارة">
+    </a>
+    <div class="model-state"><span class="state-dot"></span> النموذج جاهز</div>
+  </header>
+
+  <main>
+    <div class="page-heading">
+      <div>
+        <p class="eyebrow">التعرف على لغة الإشارة العربية</p>
+        <h1>حوّل الإشارة إلى نص.</h1>
+      </div>
+      <div class="session-controls">
+        <button id="cameraButton" class="button primary" type="button">
+          <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M14.5 4l1.6 2H20a2 2 0 012 2v9a2 2 0 01-2 2H4a2 2 0 01-2-2V8a2 2 0 012-2h3.9l1.6-2h5zM12 9a4 4 0 100 8 4 4 0 000-8z"/></svg>
+          <span>تشغيل الكاميرا</span>
+        </button>
+        <button id="pauseButton" class="button secondary" type="button" disabled>إيقاف مؤقت</button>
+      </div>
+    </div>
+
+    <section class="workspace">
+      <article class="panel camera-panel">
+        <div class="panel-header">
+          <div>
+            <span class="panel-index">01</span>
+            <h2>الكاميرا</h2>
+          </div>
+          <span id="cameraStatus" class="status">متوقفة</span>
+        </div>
+        <div class="camera-stage" id="cameraStage">
+          <video id="video" autoplay muted playsinline></video>
+          <canvas id="overlay"></canvas>
+          <div id="cameraEmpty" class="camera-empty">
+            <span class="hand-symbol" aria-hidden="true">يد</span>
+            <strong>الكاميرا متوقفة</strong>
+          </div>
+          <div class="scan-frame" aria-hidden="true"></div>
+        </div>
+        <div class="camera-footer">
+          <span id="detectionText">في انتظار البدء</span>
+          <span id="fpsText">-- إطار/ث</span>
+        </div>
+      </article>
+
+      <article class="panel translation-panel">
+        <div class="panel-header">
+          <div>
+            <span class="panel-index coral">02</span>
+            <h2>الترجمة العربية</h2>
+          </div>
+          <button id="clearButton" class="icon-button" type="button" title="مسح الترجمة" aria-label="مسح الترجمة">
+            <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M3 6h18M8 6V4h8v2m-9 0l1 14h8l1-14M10 10v6m4-6v6"/></svg>
+          </button>
+        </div>
+
+        <div class="translation-output" lang="ar" dir="rtl">
+          <p id="arabicText" class="arabic-text" data-empty="true">ابدأ بالإشارة</p>
+          <span class="text-caret" aria-hidden="true"></span>
+        </div>
+
+        <div class="active-sign">
+          <div class="sign-glyph" id="signGlyph" lang="ar">--</div>
+          <div class="sign-details">
+            <span>الإشارة الحالية</span>
+            <strong id="signName">لم يتم اكتشاف إشارة</strong>
+          </div>
+          <div class="confidence">
+            <span id="confidenceValue">0%</span>
+            <div class="confidence-track"><i id="confidenceBar"></i></div>
+          </div>
+        </div>
+
+        <div class="translation-actions">
+          <button id="spaceButton" class="text-button" type="button">إضافة مسافة</button>
+          <button id="deleteButton" class="text-button" type="button">حذف الأخير</button>
+        </div>
+      </article>
+    </section>
+
+    <div class="reverse-heading">
+      <div>
+        <p class="eyebrow coral-ink">من النص العربي إلى الإشارة</p>
+        <h2>شاهد الحروف بلغة الإشارة.</h2>
+      </div>
+      <span class="prototype-note">حروف وأرقام من المراجع المرفقة</span>
+    </div>
+
+    <section class="reverse-workspace">
+      <article class="panel phrase-panel">
+        <div class="panel-header">
+          <div>
+            <span class="panel-index coral">03</span>
+            <h2>النص العربي</h2>
+          </div>
+          <button id="reverseClearButton" class="icon-button" type="button" title="مسح النص" aria-label="مسح النص">
+            <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M3 6h18M8 6V4h8v2m-9 0l1 14h8l1-14M10 10v6m4-6v6"/></svg>
+          </button>
+        </div>
+        <textarea id="phraseInput" lang="ar" dir="rtl" maxlength="80" placeholder="اكتب حروفاً أو أرقاماً..."></textarea>
+        <div class="supported-picker">
+          <span>الإشارات المدعومة</span>
+          <div id="supportedSigns" class="supported-signs" dir="rtl"></div>
+        </div>
+        <div class="phrase-footer">
+          <span id="phraseCount">0 / 80</span>
+          <button id="signButton" class="button primary" type="button">عرض الإشارات <span aria-hidden="true">↖</span></button>
+        </div>
+      </article>
+
+      <article class="panel avatar-panel">
+        <div class="panel-header">
+          <div>
+            <span class="panel-index">04</span>
+            <h2>عارض الإشارة</h2>
+          </div>
+          <span id="avatarStatus" class="status">جاهز</span>
+        </div>
+        <div class="avatar-stage">
+          <div class="avatar-grid" aria-hidden="true"></div>
+          <div id="avatar" class="avatar" aria-label="عارض توضيحي للغة الإشارة">
+            <div id="signHand" class="sign-hand" aria-label="شكل إشارة اليد الحالية"><img id="signHandImage" src="/static/assets/signs/space.png" alt=""></div>
+          </div>
+          <div class="avatar-letter" id="avatarLetter" lang="ar">—</div>
+          <div class="avatar-caption" id="avatarCaption">اكتب حروفاً أو أرقاماً للبدء</div>
+        </div>
+        <div class="sequence-row">
+          <button id="avatarPlayButton" class="button primary" type="button" disabled>تشغيل التسلسل</button>
+          <label class="speed-control">السرعة <select id="avatarSpeed"><option value="1500">بطيئة</option><option value="950" selected>متوسطة</option><option value="550">سريعة</option></select></label>
+          <span id="sequenceProgress">0 / 0</span>
+        </div>
+        <div id="sequenceStrip" class="sequence-strip" lang="ar" dir="rtl" aria-label="تسلسل التهجئة بالإشارة"></div>
+        <p class="avatar-disclaimer">تُعرض 43 إشارة للحروف والأرقام والمسافة. رُسمت الأشكال من المراجع المرفقة، وتحتاج مراجعة مختص بلغة الإشارة السعودية قبل الاستخدام الرسمي.</p>
+      </article>
+    </section>
+  </main>
+
+  <footer>
+    <span>التعرف على الحروف · التهجئة العربية</span>
+    <span>معالجة محلية · الفيديو لا يُرفع إلى السحابة</span>
+  </footer>
+
+  <canvas id="captureCanvas" hidden></canvas>
+  <script src="/static/app.js"></script>
+</body>
+</html>
